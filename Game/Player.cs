@@ -1,8 +1,9 @@
 using blackjack.Observer;
+using blackjack.Strategy.Interfaces;
 
 namespace BlackJack
 {
-	class Player
+	class Player : IPlayer
 	{
 		public string Name { get; }
 		public List<Card> DrawnCards { get; } = new List<Card>();

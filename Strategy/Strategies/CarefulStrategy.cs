@@ -1,0 +1,17 @@
+using System;
+using blackjack.Strategy.Interfaces;
+
+namespace blackjack.Strategy.Strategies
+{
+	public class CarefulStrategy : IStrategy
+	{
+		public bool Play(int points)
+		{
+			if(points>=13)
+			{
+				return false;
+			}
+			return true;
+		}
+	}
+}
