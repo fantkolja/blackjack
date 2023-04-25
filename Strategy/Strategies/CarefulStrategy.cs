@@ -7,11 +7,7 @@ namespace blackjack.Strategy.Strategies
 	{
 		public bool Play(int points)
 		{
-			if(points>=13)
-			{
-				return false;
-			}
-			return true;
+			return !(points>=13);
 		}
 	}
 }

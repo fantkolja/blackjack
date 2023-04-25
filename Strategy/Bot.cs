@@ -15,7 +15,7 @@ namespace blackjack.Strategy
 
         public Bot()
         {
-            _strategy = new HazardStrategy();
+            _strategy = new CarefulStrategy();
         }
         public void SetStrategy(IStrategy strategy)
         {
