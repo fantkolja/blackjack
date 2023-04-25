@@ -1,3 +1,5 @@
+using blackjack.Strategy.Interfaces;
+
 namespace BlackJack
 {
   static class Logger
@@ -29,7 +31,7 @@ namespace BlackJack
     {
       Console.WriteLine($"Switching to player {playerName}...");
     }
-    public static void EndGame(List<Player> winners)
+    public static void EndGame(List<IPlayer> winners)
     {
       Console.WriteLine("Checking winners...");
       if (winners.Count == 0)
