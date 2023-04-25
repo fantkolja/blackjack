@@ -1,4 +1,6 @@
 using blackjack;
+using blackjack.Game.Strategy;
+using blackjack.Game.Observer;
 
 namespace BlackJack
 {
@@ -7,19 +9,49 @@ namespace BlackJack
         public static readonly int PLAYER_COUNT = 2;
         public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
         private GameState _state = new GameState();
+        private IStrategy _strategy;
         public bool IsMultiplayer { get; private set; }
         public Game(bool isMultiplayer = true)
         {
             IsMultiplayer = isMultiplayer;
+            if (!IsMultiplayer)
+            {
+                _strategy = new WeakStrategy();
+            }
+        }
+        public void SetStrategy(IStrategy strategy)
+        {
+            _strategy = strategy;
         }
         private List<Player> _createPlayers()
         {
             var players = new List<Player>();
-            for (int i = 1; i <= PLAYER_COUNT; i++)
+            if (IsMultiplayer)
             {
-                string defaultName = $"Player {i}";
+                for (int i = 1; i <= PLAYER_COUNT; i++)
+                {
+                    string defaultName = $"Player {i}";
+                    string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+                    players.Add(new Player(name));
+                }
+            }
+            else
+            {
+                string defaultName = $"Player {1}";
                 string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
                 players.Add(new Player(name));
+                for (int i = 2; i <= PLAYER_COUNT; i++)
+                {
+                    var num = 0;
+                    foreach (var player in players)
+                    {
+                        if (player.IsAi)
+                        {
+                            num++;
+                        }
+                    }
+                    players.Add(new Player($"AI_{num}", true));
+                }
             }
             return players;
         }
@@ -53,7 +85,7 @@ namespace BlackJack
             Logger.EndGame(winners);
             var analyticsObserver = new AnalyticsObserver("analytics.txt");
             Console.WriteLine();
-            Console.WriteLine($"Average num of points: {analyticsObserver.GetAveragePoints()}");
+            Console.WriteLine($"Average score for all rounds in all played games on this computer: {analyticsObserver.GetAveragePoints()}");
         }
 
         public void HandlePlayer(Player player)
@@ -63,9 +95,20 @@ namespace BlackJack
             {
                 player.DrawCard(this._state.Deck);
             }
-            while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw())
+
+            if (!player.IsAi)
             {
-                player.DrawCard(this._state.Deck);
+                while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw())
+                {
+                    player.DrawCard(this._state.Deck);
+                }
+            }
+            else
+            {
+                while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && _strategy.DecideMove(PointsCounter.CountSum(player.DrawnCards)))
+                {
+                    player.DrawCard(this._state.Deck);
+                }
             }
 
             int points = PointsCounter.CountSum(player.DrawnCards);

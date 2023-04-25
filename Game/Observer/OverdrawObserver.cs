@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace blackjack
+namespace blackjack.Game.Observer
 {
     public class OverdrawObserver : IPointsObserver
     {
