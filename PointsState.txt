@@ -1,6 +1,1 @@
 
-Player: Nikc, Points: 22
-Player: Link, Points: 27
-Player: Mikle, Points: 22
-Player: John, Points: 23
-Overcounting[4/24/2023 11:39:45 PM]! Player: Pol, Points: 22

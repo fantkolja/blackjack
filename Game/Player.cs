@@ -2,14 +2,13 @@ using blackjack.Observer;
 
 namespace BlackJack
 {
-	class Player : SubjectBase
+	class Player
 	{
 		public string Name { get; }
 		public List<Card> DrawnCards { get; } = new List<Card>();
 		public Player(string name)
 		{
 			this.Name = name;
-			Subscribe(new PointsObserver());
 		}
 		public bool ConfirmNextDraw()
 		{
@@ -19,7 +18,6 @@ namespace BlackJack
 		{
 			Card card = cardsDeck.Draw();
 			this.DrawnCards.Add(card);
-			Notify();
 			Logger.ShowDrawnCard(card, PointsCounter.CountSum(this.DrawnCards));
 			return card;
 		}

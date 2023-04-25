@@ -1,6 +1,8 @@
+using blackjack.Observer;
+
 namespace BlackJack
 {
-	class GameState
+	class GameState : SubjectBase
 	{
 		private List<Player> _players;
 		public List<Player> Players{get=>_players;private set=>_players=value;}
@@ -10,10 +12,13 @@ namespace BlackJack
 		public GameState()
 		{
 			_players = new List<Player>();
+			Subscribe(new PointsObserver());
+			Subscribe(new AveragePointCountObserver());
 		}
 		
 		public List<Player> GetWinners()
 		{
+			Notify();
 			return this._players.Aggregate(new List<Player>(), (List<Player> winners, Player next) => {
 				int? nextPlayerPointsCount = PointsCounter.CountWinningPoints(next.DrawnCards);
 				int? currentWinningPoints = winners.Count > 0 ? PointsCounter.CountWinningPoints(winners[0].DrawnCards) : null;
