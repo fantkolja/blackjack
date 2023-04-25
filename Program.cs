@@ -1,4 +1,8 @@
-﻿using BlackJack;
+﻿using blackjack.Game.Strategy;
+using BlackJack;
 
-var game = new Game();
+var strategy = new RandomStrategy();
+
+var game = new Game(false);
+game.SetStrategy(strategy);
 game.Start();
