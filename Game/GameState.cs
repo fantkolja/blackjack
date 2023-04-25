@@ -5,7 +5,7 @@ namespace BlackJack
 	class GameState : SubjectBase
 	{
 		private List<Player> _players;
-		public List<Player> Players{get=>_players;private set=>_players=value;}
+		public List<Player> Players{get=>_players;}
 		public CardsDeck Deck { get; } = new CardsDeck();
 		public Player? ActivePlayer { get; private set; }
 		
