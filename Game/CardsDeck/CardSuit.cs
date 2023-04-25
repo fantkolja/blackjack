@@ -1,10 +1,10 @@
 namespace BlackJack
 {
-  enum CardSuit
-  {
-    Diamonds, // ♦
-    Clubs, // ♣
-    Hearts, // ♥
-    Spades, // ♠
-  }
+    enum CardSuit
+    {
+        Diamonds, // ♦
+        Clubs, // ♣
+        Hearts, // ♥
+        Spades, // ♠
+    }
 }
