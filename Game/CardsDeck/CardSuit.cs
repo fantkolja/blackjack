@@ -1,6 +1,6 @@
-namespace BlackJack
+ namespace BlackJack
 {
-  enum CardSuit
+  public enum CardSuit
   {
     Diamonds, // ♦
     Clubs, // ♣

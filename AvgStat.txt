@@ -1,0 +1,4 @@
+Time:07.05.2023 0:19:52;Player:Va;Scores:10, 10, 9;Avg:9
+
+Time:07.05.2023 0:19:54;Player:Vi;Scores:8, 10, 3;Avg:7
+

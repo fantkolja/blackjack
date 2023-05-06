@@ -1,10 +1,21 @@
+using blackjack.Game.EventHandlers;
+
 namespace BlackJack
 {
-  class Game
+  public class Game
   {
+    public event EventHandler<AvgStatHandler> AvgStateEvent;
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
     private GameState _state = new GameState();
+
+    private void CreateEvent(string PlayerName, List<int> Scores)
+    {
+        if (AvgStateEvent != null)
+        {
+            AvgStateEvent(this, new AvgStatHandler(PlayerName, Scores));
+        }
+    }
     private List<Player> _createPlayers()
     {
       var players = new List<Player>();
@@ -48,15 +59,19 @@ namespace BlackJack
 
     public void HandlePlayer(Player player)
     {
+      List<int> Scores = new List<int>();
       Logger.StartPlayersTurn(player.Name);
       for (int i = 0; i < CARDS_WITHOUT_CONFIRMATION_COUNT; i++)
       {
-        player.DrawCard(this._state.Deck);
+        var card = player.DrawCard(this._state.Deck);
+        Scores.Add(PointsCounter.GetCardPower(card));
       }
       while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw())
       {
-        player.DrawCard(this._state.Deck);
+        var card = player.DrawCard(this._state.Deck);
+        Scores.Add(PointsCounter.GetCardPower(card));
       }
+      CreateEvent(player.Name, Scores);
     }
   }
 }

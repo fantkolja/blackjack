@@ -1,8 +1,16 @@
+using blackjack.Game.Handlers;
+
 namespace BlackJack
 {
-  static class PointsCounter
+  public static class PointsCounter
   {
-    public const int MAX_POINTS_COUNT = 21;
+    public static event EventHandler<Over21HandlerLog> Over21HandlerLog;
+        private static void CreateEvent(string PlayerName, int Score)
+        {
+            if (Over21HandlerLog != null)
+                Over21HandlerLog(null, new Over21HandlerLog(PlayerName, Score));
+        }
+        public const int MAX_POINTS_COUNT = 21;
     private static Dictionary<CardName, int> _cardValueMap = new Dictionary<CardName, int>(){
       { CardName.Two, 2 },
       { CardName.Three, 3 },
@@ -19,7 +27,8 @@ namespace BlackJack
       { CardName.Ace, 11 },
     };
     public const int MIN_ACE_VALUE = 1;
-
+        
+   
     private static int _countNoAcesSum(List<Card> cards)
     {
       return cards.Aggregate(0, (int sum, Card card) => {
@@ -46,11 +55,21 @@ namespace BlackJack
       return PointsCounter._addAcesSum(noAcesSum, aces);
     }
 
-    // returns points sum, but only if they are less than MAX_POINTS_COUNT
-    public static int? CountWinningPoints(List<Card> cards)
+    public static int GetCardPower(Card card)
     {
-      int sum = PointsCounter.CountSum(cards);
-      return sum <= MAX_POINTS_COUNT ? sum : null;
+        return _cardValueMap[card.Name];
+    }
+        // returns points sum, but only if they are less than MAX_POINTS_COUNT
+    public static int? CountWinningPoints(Player player)
+    {
+      int sum = PointsCounter.CountSum(player.DrawnCards);
+        if (sum <= MAX_POINTS_COUNT)
+            return sum;
+        else
+        {
+           CreateEvent(player.Name, sum);
+           return null;
+        }
     }
   }
 }
