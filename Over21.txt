@@ -10,3 +10,11 @@ Time:7 травня 2023 р.;Player:Vi;Score:26
 
 Time:7 травня 2023 р.;Player:Va;Score:29
 
+Time:10 травня 2023 р.;Player:Vadim;Score:23
+
+Time:10 травня 2023 р.;Player:Bot;Score:27
+
+Time:10 травня 2023 р.;Player:Vadim;Score:26
+
+Time:10 травня 2023 р.;Player:Vadim;Score:22
+
