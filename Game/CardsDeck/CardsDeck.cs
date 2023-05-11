@@ -1,6 +1,6 @@
 namespace BlackJack
 {
-  class CardsDeck
+  public class CardsDeck
   {
     private Queue<Card> _cardsIn = new Queue<Card>();
     private List<Card> _cardsOut = new List<Card>();

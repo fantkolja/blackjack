@@ -37,7 +37,16 @@ namespace BlackJack
       } while(answer == null);
       return answer;
     }
-
+    public static bool? ChoosePoint(string messsage)
+    {
+        Logger.Log(messsage);
+        bool? answer = null;
+        do
+        {
+            answer = Convert.ToBoolean(Convert.ToInt16(Console.ReadLine()));
+        } while (answer == null);
+        return answer;
+    }
     public static string RequestAnswer(string messsage, string defaultAnswer)
     {
       string answer = InputHandler.RequestAnswer(messsage);

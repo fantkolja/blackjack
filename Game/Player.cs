@@ -1,9 +1,10 @@
 namespace BlackJack
 {
-  class Player
+  public class Player
   {
+    public bool IsBOT { set; get; } = false;
     public string Name { get; }
-    public List<Card> DrawnCards { get; } = new List<Card>();
+    public List<Card> DrawnCards { set; get; } = new List<Card>();
     public Player(string name)
     {
       this.Name = name;

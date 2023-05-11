@@ -1,6 +1,6 @@
 namespace BlackJack
 {
-  record CardSuitInfo
+  public record CardSuitInfo
   {
     public CardSuit Id { get; }
     public string Name { get; }
