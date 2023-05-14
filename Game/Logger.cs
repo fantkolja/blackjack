@@ -1,3 +1,5 @@
+using blackjack.Game;
+
 namespace BlackJack
 {
   static class Logger
@@ -29,7 +31,7 @@ namespace BlackJack
     {
       Console.WriteLine($"Switching to player {playerName}...");
     }
-    public static void EndGame(List<Player> winners)
+    public static void EndGame(List<IParticipant> winners)
     {
       Console.WriteLine("Checking winners...");
       if (winners.Count == 0)
@@ -49,6 +51,13 @@ namespace BlackJack
     public static void Log(string message)
     {
       Console.WriteLine(message);
+    }
+
+    public static void BotLog(string message)
+    {
+      Console.ForegroundColor = ConsoleColor.Blue;
+      Console.WriteLine(message);
+      Console.ResetColor();
     }
   }
 }

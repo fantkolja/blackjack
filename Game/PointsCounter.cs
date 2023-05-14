@@ -3,7 +3,7 @@ namespace BlackJack
   static class PointsCounter
   {
     public const int MAX_POINTS_COUNT = 21;
-    private static Dictionary<CardName, int> _cardValueMap = new Dictionary<CardName, int>(){
+    public readonly static Dictionary<CardName, int> _cardValueMap = new Dictionary<CardName, int>(){
       { CardName.Two, 2 },
       { CardName.Three, 3 },
       { CardName.Four, 4 },
