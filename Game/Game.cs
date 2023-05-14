@@ -1,3 +1,7 @@
+using blackjack.Game;
+using blackjack.Game.Strategy;
+using System.Xml.Linq;
+
 namespace BlackJack
 {
   class Game
@@ -5,26 +9,52 @@ namespace BlackJack
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
     private GameState _state = new GameState();
-    private List<Player> _createPlayers()
+    private Context botContext = new Context();
+    private List<IParticipant> _createParticipants()
     {
-      var players = new List<Player>();
-      for (int i = 1; i <= PLAYER_COUNT; i++)
+      botContext.Unset();
+      var participants = new List<IParticipant>();
+      Bot? bot = null;
+      if (InputHandler.Confirm($"Do you want to play with bot?"))
       {
-        string defaultName = $"Player {i}";
-        string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-        players.Add(new Player(name));
+        int botId = int.TryParse(InputHandler.RequestAnswer($"Careful - 1, Risky - 2, Random - 3"), out botId) ? botId : 2;
+        switch (botId)
+        {
+          case 1: bot = new CarefulBot(); break;
+          case 2: bot = new RiskyBot(); break;
+          default: bot = new RandomBot(); break;
+        }
+        botContext.SetBot(bot);
+        participants.Add(new Player("YOU"));
+        participants.Add(bot);
       }
-      return players;
+      else
+      {
+        for (int i = 1; i <= PLAYER_COUNT; i++)
+        {
+          string defaultName = $"Player {i}";
+          string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+          while (name.ToLower().Contains("bot"))
+          {
+            Console.WriteLine("Try another name.");
+            name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+          }
+          participants.Add(new Player(name));
+        }
+      }
+      return participants;
     }
+
     private void _greet()
     {
+      Console.Clear();
       Logger.Greet();
     }
     private void _initiateState()
     {
-      this._state.SetPlayers(this._createPlayers());
+      this._state.SetPlayers(this._createParticipants());
     }
-    public void Start()
+    public bool Start()
     {
       this._greet();
       this._initiateState();
@@ -37,25 +67,40 @@ namespace BlackJack
         this.HandlePlayer(this._state.ActivePlayer);
       }
       while(this._state.SwitchPlayer());
-      this.End();
+      return this.End();
     }
 
-    public void End()
+    public bool End()
     {
-      List<Player> winners = this._state.GetWinners();
+      List<IParticipant> winners = this._state.GetWinners();
       Logger.EndGame(winners);
+      _botsAssessments(winners);
+      return InputHandler.Confirm("Do you want to play again?");
     }
 
-    public void HandlePlayer(Player player)
+    public void HandlePlayer(IParticipant player)
     {
       Logger.StartPlayersTurn(player.Name);
       for (int i = 0; i < CARDS_WITHOUT_CONFIRMATION_COUNT; i++)
       {
         player.DrawCard(this._state.Deck);
       }
-      while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw())
+      while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw(PointsCounter.CountSum(player.DrawnCards)))
       {
         player.DrawCard(this._state.Deck);
+      }
+    }
+
+    private void _botsAssessments(List<IParticipant> winners)
+    {
+      foreach(IParticipant i in this._state.GetParticipants())
+      {
+        if (i.Name.ToLower().Contains("bot"))
+        {
+          botContext.SetBot((Bot)i);
+          if(winners.Contains(i)) botContext.BotAssessment(true);
+          else botContext.BotAssessment(false);
+        }
       }
     }
   }

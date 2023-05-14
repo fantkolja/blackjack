@@ -1,6 +1,8 @@
+using blackjack.Game;
+
 namespace BlackJack
 {
-  class Player
+  class Player : IParticipant
   {
     public string Name { get; }
     public List<Card> DrawnCards { get; } = new List<Card>();
@@ -8,7 +10,7 @@ namespace BlackJack
     {
       this.Name = name;
     }
-    public bool ConfirmNextDraw()
+    public bool ConfirmNextDraw(int currentSum)
     {
       return InputHandler.Confirm("Do you want to draw next card?");
     }
