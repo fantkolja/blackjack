@@ -7,4 +7,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\University\ForGit\SoftСonstruct\lab-6\blackjack\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="D:\University\ForGit\SoftСonstruct\lab-6\blackjack\.editorconfig" />
+  </ItemGroup>
+
 </Project>

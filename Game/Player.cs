@@ -1,8 +1,9 @@
+using blackjack.Game;
 using blackjack.Game.Observer;
 
 namespace BlackJack
 {
-  class Player
+  class Player : IParticipant
   {
     private Subject subject = InitManager.GetNewSubject();
     public string Name { get; }
@@ -11,7 +12,7 @@ namespace BlackJack
     {
       this.Name = name;
     }
-    public bool ConfirmNextDraw()
+    public bool ConfirmNextDraw(int currentSum)
     {
       return InputHandler.Confirm("Do you want to draw next card?");
     }
