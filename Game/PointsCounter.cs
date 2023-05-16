@@ -5,7 +5,7 @@ namespace BlackJack
     public static class PointsCounter
     {
         public const int MAX_POINTS_COUNT = 21;
-        public static Dictionary<CardName, int> _cardValueMap = new Dictionary<CardName, int>(){
+        private static Dictionary<CardName, int> _cardValueMap = new Dictionary<CardName, int>(){
           { CardName.Two, 2 },
           { CardName.Three, 3 },
           { CardName.Four, 4 },
@@ -22,7 +22,7 @@ namespace BlackJack
         };
         public const int MIN_ACE_VALUE = 1;
 
-        public static int _countNoAcesSum(List<Card> cards)
+        private static int _countNoAcesSum(List<Card> cards)
         {
             return cards.Aggregate(0, (int sum, Card card) => {
                 int toAdd = card.Name == CardName.Ace ? 0 : PointsCounter._cardValueMap[card.Name];
@@ -30,7 +30,7 @@ namespace BlackJack
             });
         }
 
-        public static int _addAcesSum(int noAcesSum, List<Card> aces)
+        private static int _addAcesSum(int noAcesSum, List<Card> aces)
         {
             return aces.Aggregate(noAcesSum, (int sum, Card card) => {
                 int maxAceValue = PointsCounter._cardValueMap[CardName.Ace];
