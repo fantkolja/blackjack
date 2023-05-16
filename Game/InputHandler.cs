@@ -2,7 +2,7 @@
 {
     static class InputHandler
     {
-        public static char _requestConfirm()
+        private static char _requestConfirm()
         {
             char? userInput = null;
             do

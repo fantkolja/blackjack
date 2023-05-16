@@ -1,14 +1,16 @@
 ﻿using BlackJack.CardDeck;
-
+using BlackJack.Interfaces;
 namespace BlackJack
 {
     public class Player
     {
         public string Name { get; }
         public List<Card> DrawnCards { get; } = new List<Card>();
-        public Player(string name)
+        public IStrategy Strategy { get; set; }
+        public Player(string name, IStrategy strategy)
         {
             this.Name = name;
+            Strategy = strategy;
         }
         public bool ConfirmNextDraw()
         {
@@ -20,6 +22,10 @@ namespace BlackJack
             this.DrawnCards.Add(card);
             Logger.ShowDrawnCard(card, PointsCounter.CountSum(this.DrawnCards));
             return card;
+        }
+        public void Play(GameState state)
+        {
+            this.Strategy.Play(this, state);
         }
     }
 }

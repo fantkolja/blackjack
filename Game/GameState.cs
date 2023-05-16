@@ -1,14 +1,12 @@
 ﻿using BlackJack.CardDeck;
 using System.Collections.Generic;
-
-
 namespace BlackJack
 {
     public class GameState
     {
-        public List<Player> _players = new List<Player>();
+        private List<Player> _players = new List<Player>();
         public CardsDeck Deck { get; } = new CardsDeck();
-        public Player? ActivePlayer { get; set; }
+        public Player? ActivePlayer { get; private set; }
 
         public List<Player> GetWinners()
         {
