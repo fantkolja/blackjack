@@ -11,7 +11,7 @@
 
 # Visual Studio temp something
 .vs/
-
+.idea/
 bin
 obj
 
