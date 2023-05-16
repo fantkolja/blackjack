@@ -1,3 +1,6 @@
+using blackjack.Strategy;
+using blackjack.Strategy.Interfaces;
+
 namespace BlackJack
 {
   static class InputHandler
@@ -48,6 +51,21 @@ namespace BlackJack
       }
       Logger.Log("");
       return answer;
+    }
+    
+    public static IGameStrategy? ChooseGameMode()
+    {
+      Logger.Log("Choose mode: 1.Single 2.Multiple");
+      string? res = Console.ReadLine();
+      if (!String.IsNullOrEmpty(res))
+      {
+        if (res == "1")
+        {
+          return new SinglePlayerStrategy();
+        }
+      }
+						
+      return null;
     }
   }
 }
