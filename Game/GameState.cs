@@ -1,14 +1,23 @@
 namespace BlackJack
 {
-  class GameState
+ class GameState : SubjectBase
   {
-    private List<Player> _players = new List<Player>();
+    private List<IPlayer> _players;
+    public List<IPlayer> Players{get=>_players;}
     public CardsDeck Deck { get; } = new CardsDeck();
-    public Player? ActivePlayer { get; private set; }
-
-    public List<Player> GetWinners()
+    public IPlayer? ActivePlayer { get; private set; }
+    
+    public GameState()
     {
-      return this._players.Aggregate(new List<Player>(), (List<Player> winners, Player next) => {
+      _players = new List<IPlayer>();
+      Subscribe(new PointsObserver());
+      Subscribe(new AveragePointCountObserver());
+    }
+    
+    public List<IPlayer> GetWinners()
+    {
+      Notify();
+      return this._players.Aggregate(new List<IPlayer>(), (List<IPlayer> winners, IPlayer next) => {
         int? nextPlayerPointsCount = PointsCounter.CountWinningPoints(next.DrawnCards);
         int? currentWinningPoints = winners.Count > 0 ? PointsCounter.CountWinningPoints(winners[0].DrawnCards) : null;
         if (nextPlayerPointsCount is int)
@@ -33,10 +42,10 @@ namespace BlackJack
         return winners;
       });
     }
-    public void SetPlayers(List<Player> players)
+    public void SetPlayers(List<IPlayer> players)
     {
       this._players.AddRange(players);
-      this.ActivePlayer = this._players[0];
+      this.ActivePlayer = (Player)this._players[0];
     }
 
     public bool SwitchPlayer()
