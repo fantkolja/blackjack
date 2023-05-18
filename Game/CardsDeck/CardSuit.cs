@@ -1,10 +1,10 @@
-namespace BlackJack
+namespace BlackJack.CardDeck
 {
-  enum CardSuit
-  {
-    Diamonds, // ♦
-    Clubs, // ♣
-    Hearts, // ♥
-    Spades, // ♠
-  }
+    public enum CardSuit
+    {
+        Diamonds, // ♦
+        Clubs, // ♣
+        Hearts, // ♥
+        Spades, // ♠
+    }
 }

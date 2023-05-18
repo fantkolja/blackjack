@@ -1,19 +1,19 @@
-namespace BlackJack
+namespace BlackJack.CardDeck
 {
-  enum CardName
-  {
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    Jack,
-    Queen,
-    King,
-    Ace,
-  }
+    public enum CardName
+    {
+        Two,
+        Three,
+        Four,
+        Five,
+        Six,
+        Seven,
+        Eight,
+        Nine,
+        Ten,
+        Jack,
+        Queen,
+        King,
+        Ace,
+    }
 }
