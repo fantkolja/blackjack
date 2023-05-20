@@ -1,4 +1,6 @@
 ﻿using BlackJack;
-
-var game = new Game();
-game.Start();
+Game game;
+do
+{
+   game = new Game();
+}while (game.Start());

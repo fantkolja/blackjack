@@ -1,14 +1,16 @@
+using blackjack.Game;
+
 namespace BlackJack
 {
   class GameState
   {
-    private List<Player> _players = new List<Player>();
+    private List<IParticipant> _players = new List<IParticipant>();
     public CardsDeck Deck { get; } = new CardsDeck();
-    public Player? ActivePlayer { get; private set; }
+    public IParticipant? ActivePlayer { get; private set; }
 
-    public List<Player> GetWinners()
+    public List<IParticipant> GetWinners()
     {
-      return this._players.Aggregate(new List<Player>(), (List<Player> winners, Player next) => {
+      return this._players.Aggregate(new List<IParticipant>(), (List<IParticipant> winners, IParticipant next) => {
         int? nextPlayerPointsCount = PointsCounter.CountWinningPoints(next.DrawnCards);
         int? currentWinningPoints = winners.Count > 0 ? PointsCounter.CountWinningPoints(winners[0].DrawnCards) : null;
         if (nextPlayerPointsCount is int)
@@ -33,7 +35,13 @@ namespace BlackJack
         return winners;
       });
     }
-    public void SetPlayers(List<Player> players)
+
+    public List<IParticipant> GetParticipants()
+    {
+      return this._players;
+    }
+
+    public void SetPlayers(List<IParticipant> players)
     {
       this._players.AddRange(players);
       this.ActivePlayer = this._players[0];
