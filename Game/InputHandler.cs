@@ -26,7 +26,18 @@ namespace BlackJack
       char userInput = InputHandler._requestConfirm();
       return userInput == 'y';
     }
-
+    public static string ChooseOption(string message, string[] options) 
+    {
+        Logger.Log(message);
+        for(int i =0; i<options.Length;i++) Logger.Log($"{i+1} - {options[i]}");
+        
+        int selectedOption = 0;
+            do
+            {
+                int.TryParse(Console.ReadLine(), out selectedOption);
+            } while (selectedOption<1 || selectedOption>options.Length) ;
+        return options[selectedOption-1];
+    }
     public static string RequestAnswer(string messsage)
     {
       Logger.Log(messsage);
