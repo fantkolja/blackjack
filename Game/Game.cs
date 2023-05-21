@@ -1,3 +1,6 @@
+using blackjack.Game.Observer;
+using System.Security.Cryptography.X509Certificates;
+
 namespace BlackJack
 {
   class Game
@@ -5,6 +8,7 @@ namespace BlackJack
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
     private GameState _state = new GameState();
+    public EventManager Events = new();
     private List<Player> _createPlayers()
     {
       var players = new List<Player>();
@@ -42,7 +46,7 @@ namespace BlackJack
 
     public void End()
     {
-      List<Player> winners = this._state.GetWinners();
+      List<Player> winners = this._state.GetWinners(Events);
       Logger.EndGame(winners);
     }
 
@@ -57,6 +61,7 @@ namespace BlackJack
       {
         player.DrawCard(this._state.Deck);
       }
+      Events.Notify(GameEvent.PointsChanged, player);
     }
   }
 }
