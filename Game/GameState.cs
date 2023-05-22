@@ -1,3 +1,5 @@
+using blackjack.Game.Observer;
+
 namespace BlackJack
 {
   class GameState
@@ -5,9 +7,10 @@ namespace BlackJack
     private List<Player> _players = new List<Player>();
     public CardsDeck Deck { get; } = new CardsDeck();
     public Player? ActivePlayer { get; private set; }
-
-    public List<Player> GetWinners()
+    
+    public List<Player> GetWinners(EventManager eventManager)
     {
+      eventManager.Notify(GameEvent.GameEnd, _players);
       return this._players.Aggregate(new List<Player>(), (List<Player> winners, Player next) => {
         int? nextPlayerPointsCount = PointsCounter.CountWinningPoints(next.DrawnCards);
         int? currentWinningPoints = winners.Count > 0 ? PointsCounter.CountWinningPoints(winners[0].DrawnCards) : null;
