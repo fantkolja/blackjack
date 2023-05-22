@@ -2,7 +2,7 @@ namespace BlackJack
 {
   class GameState
   {
-    private List<Player> _players = new List<Player>();
+    public List<Player> _players = new List<Player>();
     public CardsDeck Deck { get; } = new CardsDeck();
     public Player? ActivePlayer { get; private set; }
 
