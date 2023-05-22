@@ -1,20 +1,51 @@
+using blackjack.Game.Strategy;
+
 namespace BlackJack
 {
   class Game
   {
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
+    public static readonly string[] BOT_TYPES = new string[] { "Cautious", "Risky", "Random" };
     private GameState _state = new GameState();
     private List<Player> _createPlayers()
     {
-      var players = new List<Player>();
-      for (int i = 1; i <= PLAYER_COUNT; i++)
+      if(InputHandler.Confirm("Do you want to play with bot"))
       {
-        string defaultName = $"Player {i}";
+        var players = new List<Player>();
+      
+        string defaultName = $"Player 1";
         string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
         players.Add(new Player(name));
-      }
+        var botPlayer = new BotPlayer("Bot", new CautiousBotStrategy());
+        string selectedBot = InputHandler.ChooseOption("Choose bot type:", BOT_TYPES);
+        switch (selectedBot)
+        {
+            case "Cautious":
+                botPlayer.Strategy = new CautiousBotStrategy();
+                break;
+            case "Risky":
+                botPlayer.Strategy = new CautiousBotStrategy();
+                break;
+            case "Random":
+                botPlayer.Strategy = new CautiousBotStrategy();
+                break;
+
+            }
+        players.Add(botPlayer);
       return players;
+      }else{
+          var players = new List<Player>();
+          for (int i = 1; i <= PLAYER_COUNT; i++)
+          {
+        
+            string defaultName = $"Player {i}";
+            string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+            players.Add(new Player(name));
+          }
+          return players;
+      }
+      
     }
     private void _greet()
     {

@@ -8,7 +8,7 @@ namespace BlackJack
     {
       this.Name = name;
     }
-    public bool ConfirmNextDraw()
+    public virtual bool ConfirmNextDraw()
     {
       return InputHandler.Confirm("Do you want to draw next card?");
     }
