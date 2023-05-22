@@ -1,4 +1,5 @@
 using blackjack.Game;
+using blackjack.Game.Strategy;
 
 namespace BlackJack
 {
@@ -7,13 +8,15 @@ namespace BlackJack
         public string Name { get; }
         public List<Card> DrawnCards { get; } = new List<Card>();
         private List<IObserver> _observers = new List<IObserver>();
+        public IPlayingStrategy Strategy { get; set; }
         public Player(string name)
         {
             this.Name = name;
         }
         public bool ConfirmNextDraw()
         {
-            return InputHandler.Confirm("Do you want to draw next card?");
+            /*return InputHandler.Confirm("Do you want to draw next card?");*/
+            return Strategy.ShouldDrawCard(this);
         }
         
 
