@@ -45,6 +45,7 @@ namespace BlackJack
         string names = String.Join(", ", winners.Select((player) => player.Name));
          Console.WriteLine($"The winners are {names}");
       }
+      AnalyticsService.WriteToFile("AvScore.txt");
     }
     public static void Log(string message)
     {
