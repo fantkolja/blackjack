@@ -1,3 +1,5 @@
+using blackjack.Game.Observer;
+
 namespace BlackJack
 {
   class Player
@@ -12,12 +14,14 @@ namespace BlackJack
     {
       return InputHandler.Confirm("Do you want to draw next card?");
     }
+    public GameSubject DrawCardSubject { get; } = new GameSubject();
     public Card DrawCard(CardsDeck cardsDeck)
     {
-      Card card = cardsDeck.Draw();
-      this.DrawnCards.Add(card);
-      Logger.ShowDrawnCard(card, PointsCounter.CountSum(this.DrawnCards));
-      return card;
+        Card card = cardsDeck.Draw();
+        this.DrawnCards.Add(card);
+        DrawCardSubject.Notify(this);  // Notify the observers
+        Logger.ShowDrawnCard(card, PointsCounter.CountSum(this.DrawnCards));
+        return card;
     }
   }
 }
