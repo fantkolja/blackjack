@@ -1,10 +1,13 @@
+using blackjack.Game.Observer;
+using System;
+
 namespace BlackJack
 {
   class Game
   {
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
-    private GameState _state = new GameState();
+    public GameState _state = new GameState();
     private List<Player> _createPlayers()
     {
       var players = new List<Player>();
@@ -26,6 +29,9 @@ namespace BlackJack
     }
     public void Start()
     {
+
+      EndGameSubject.Subscribe(new OvercomingPointsObserver("overcoming_points.txt"));
+      EndGameSubject.Subscribe(new AveragePointsObserver("average_points.txt"));
       this._greet();
       this._initiateState();
       do
@@ -39,11 +45,12 @@ namespace BlackJack
       while(this._state.SwitchPlayer());
       this.End();
     }
-
+    public GameSubject EndGameSubject { get; } = new GameSubject();
     public void End()
     {
-      List<Player> winners = this._state.GetWinners();
-      Logger.EndGame(winners);
+        List<Player> winners = this._state.GetWinners();
+        EndGameSubject.Notify(this._state._players);  // Notify the observers
+        Logger.EndGame(winners);
     }
 
     public void HandlePlayer(Player player)
@@ -57,6 +64,6 @@ namespace BlackJack
       {
         player.DrawCard(this._state.Deck);
       }
-    }
+    }  
   }
 }
