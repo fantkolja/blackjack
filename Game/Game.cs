@@ -1,10 +1,13 @@
+using blackjack.Game;
+
 namespace BlackJack
 {
   class Game
   {
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
-    private GameState _state = new GameState();
+        private GameObserver observer = new GameObserver();
+        private GameState _state = new GameState();
     private List<Player> _createPlayers()
     {
       var players = new List<Player>();
@@ -22,7 +25,8 @@ namespace BlackJack
     }
     private void _initiateState()
     {
-      this._state.SetPlayers(this._createPlayers());
+            observer.CleanFiles();
+            this._state.SetPlayers(this._createPlayers());
     }
     public void Start()
     {
@@ -42,7 +46,8 @@ namespace BlackJack
 
     public void End()
     {
-      List<Player> winners = this._state.GetWinners();
+            observer.WriteAnalytics();
+            List<Player> winners = this._state.GetWinners();
       Logger.EndGame(winners);
     }
 
@@ -57,6 +62,11 @@ namespace BlackJack
       {
         player.DrawCard(this._state.Deck);
       }
-    }
+            if (PointsCounter.CountSum(player.DrawnCards) > PointsCounter.MAX_POINTS_COUNT)
+            {
+                observer.WriteExaggerate(player, PointsCounter.CountSum(player.DrawnCards));
+            }
+            observer.AddPlayersSum(PointsCounter.CountSum(player.DrawnCards));
+        }
   }
 }
