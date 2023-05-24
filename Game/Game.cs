@@ -1,3 +1,5 @@
+using blackjack.Game.Strategy;
+
 namespace BlackJack
 {
   class Game
@@ -7,15 +9,38 @@ namespace BlackJack
     private GameState _state = new GameState();
     private List<Player> _createPlayers()
     {
-      var players = new List<Player>();
-      for (int i = 1; i <= PLAYER_COUNT; i++)
-      {
-        string defaultName = $"Player {i}";
-        string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-        players.Add(new Player(name));
-      }
-      return players;
+        var players = new List<Player>();
+        for (int i = 1; i <= PLAYER_COUNT; i++)
+        {
+            string defaultName = $"Player {i}";
+            string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+
+            var playerType = InputHandler.RequestAnswer($"Choose type for player {name} (1: human, 2: cautious bot, 3: risky bot, 4: random bot):");
+
+            Player player;
+            switch (playerType)
+            {
+                case "1":
+                    player = new Player(name);
+                    break;
+                case "2":
+                    player = new BotPlayer(name, new CautiousStrategy());
+                    break;
+                case "3":
+                    player = new BotPlayer(name, new RiskStrategy());
+                    break;
+                case "4":
+                    player = new BotPlayer(name, new RandomStrategy());
+                    break;
+                default:
+                    throw new Exception("Invalid player type");
+            }
+
+            players.Add(player);
+        }
+        return players;
     }
+
     private void _greet()
     {
       Logger.Greet();

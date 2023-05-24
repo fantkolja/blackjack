@@ -1,8 +1,11 @@
+using blackjack.Game.Strategy;
+
 namespace BlackJack
 {
   class Player
   {
     public string Name { get; }
+    public IStrategy Strategy { get; set; }
     public List<Card> DrawnCards { get; } = new List<Card>();
     public Player(string name)
     {
@@ -10,7 +13,14 @@ namespace BlackJack
     }
     public bool ConfirmNextDraw()
     {
-      return InputHandler.Confirm("Do you want to draw next card?");
+        if (this is IBotPlayer botPlayer)
+        {
+            return botPlayer.Strategy.RequestNextDraw(this.DrawnCards);
+        }
+        else
+        {
+            return InputHandler.Confirm("Do you want to draw next card?");
+        }
     }
     public Card DrawCard(CardsDeck cardsDeck)
     {
