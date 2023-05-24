@@ -23,7 +23,7 @@ namespace blackjack.Game
 
         public void WriteRandom()
         {
-            using (StreamWriter writer = new StreamWriter("C:\\Users\\HP\\SoftwareDesign\\lab6\\task3\\blackjack\\Game\\Random\\RandomNumber.txt"))
+            using (StreamWriter writer = new StreamWriter("C:\\Users\\HP\\SoftwareDesign\\lab6\\task3\\blackjack1\\Game\\Random\\RandomNumber.txt"))
             {
                 writer.WriteLine($"Random number is {this.MaxRiskPoints}");
             }

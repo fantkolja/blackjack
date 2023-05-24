@@ -1,1 +1,1 @@
-Avarage sum of players is 19
+Avarage sum of players is 24

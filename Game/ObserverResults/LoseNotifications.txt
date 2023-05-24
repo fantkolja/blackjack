@@ -1,0 +1,2 @@
+Player Player1 has 26 points
+Player Player2 has 22 points
