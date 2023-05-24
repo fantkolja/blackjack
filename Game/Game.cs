@@ -1,9 +1,11 @@
+using blackjack.Game;
 namespace BlackJack
 {
   class Game
   {
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
+    private Analytic analytic = new Analytic();
     private GameState _state = new GameState();
     private List<Player> _createPlayers()
     {
@@ -44,6 +46,8 @@ namespace BlackJack
     {
       List<Player> winners = this._state.GetWinners();
       Logger.EndGame(winners);
+
+      analytic.SaveAverage();
     }
 
     public void HandlePlayer(Player player)
@@ -57,6 +61,9 @@ namespace BlackJack
       {
         player.DrawCard(this._state.Deck);
       }
+
+      int points = PointsCounter.CountSum(player.DrawnCards);
+      analytic.Update(points);
     }
   }
 }
