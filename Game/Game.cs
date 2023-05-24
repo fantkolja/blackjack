@@ -1,3 +1,4 @@
+using blackjack.Game;
 namespace BlackJack
 {
   class Game
@@ -12,7 +13,15 @@ namespace BlackJack
       {
         string defaultName = $"Player {i}";
         string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-        players.Add(new Player(name));
+        if (name == "Bot")
+        {
+           // Ñעגמנ‏÷עüסÿ במע ÿךשמ גוהועו ³ל'ÿ במע
+           players.Add(new Bot(name, new CarefulStyle()));
+        }
+        else
+        {
+            players.Add(new Player(name));
+        }
       }
       return players;
     }
