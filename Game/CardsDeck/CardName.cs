@@ -1,6 +1,6 @@
 namespace BlackJack
 {
-  enum CardName
+  public enum CardName
   {
     Two,
     Three,
