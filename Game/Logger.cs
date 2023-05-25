@@ -1,3 +1,5 @@
+using blackjack.Game;
+
 namespace BlackJack
 {
     static class Logger

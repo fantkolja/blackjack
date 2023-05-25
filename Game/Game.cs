@@ -1,4 +1,6 @@
+using blackjack.Game;
 using blackjack.Game.Observer;
+using blackjack.Game.Strategy;
 
 namespace BlackJack
 {
@@ -6,6 +8,7 @@ namespace BlackJack
     {
         public static readonly int PLAYER_COUNT = 2;
         public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
+        public GameMode Mode { get; private set; }
         private GameState _state;
         private IObserver _statisticsObserver;
 
@@ -18,12 +21,37 @@ namespace BlackJack
         private List<Player> _createPlayers()
         {
             var players = new List<Player>();
-            for (int i = 1; i <= PLAYER_COUNT; i++)
+
+            if (Mode == GameMode.MultiPlayer)
             {
-                string defaultName = $"Player {i}";
-                string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-                players.Add(new Player(name));
+                for (int i = 1; i <= PLAYER_COUNT; i++)
+                {
+                    string defaultName = $"Player {i}";
+                    string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+                    players.Add(new LocalPlayer(name));
+                }
             }
+
+            else if(Mode == GameMode.WithAI)
+            {
+                string defaultName = $"Player";
+                string name = InputHandler.RequestAnswer($"Write your name", defaultName);
+                players.Add(new LocalPlayer(name));
+
+                string gameAI = InputHandler.RequestAnswer($"Select AI (input number from 1 to 3):\n\t1) Careful\n\t2) Risky\n\t3) Random", "1");
+
+                Player ai = new CarefulAI();
+
+                if (gameAI == "1")
+                    ai = new CarefulAI();
+                else if (gameAI == "2")
+                    ai = new RiskyAI();
+                else if (gameAI == "3")
+                    ai = new RandomAI();
+
+                players.Add(ai);
+            }
+
             return players;
         }
 
@@ -34,6 +62,13 @@ namespace BlackJack
 
         private void _initiateState()
         {
+            string mode = InputHandler.RequestAnswer($"Select AI (input number from 1 or 2):\n\t1) 2 Players\n\t2) With AI", "1");
+
+            if (mode == "2")
+                this.Mode = GameMode.WithAI;
+            else
+                this.Mode = GameMode.MultiPlayer;
+
             this._state.SetPlayers(this._createPlayers());
         }
 

@@ -1,24 +1,20 @@
-using blackjack.Game.Observer;
+﻿using blackjack.Game.Observer;
+using BlackJack;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BlackJack
+namespace blackjack.Game
 {
-    class Player
+    public abstract class Player
     {
-        public string Name { get; }
-        public List<Card> DrawnCards { get; } = new List<Card>();
-        private IObserver _scoreOverflowObserver;
+        public string? Name { get; set; }
+        public List<Card> DrawnCards { get; set; } = new List<Card>();
+        protected IObserver? _scoreOverflowObserver;
 
-        public Player(string name)
-        {
-            this.Name = name;
-            this._scoreOverflowObserver = new ScoreOverflowObserver();
-        }
-
-        public bool ConfirmNextDraw()
-        {
-            return InputHandler.Confirm("Do you want to draw next card?");
-        }
+        public abstract bool ConfirmNextDraw();
 
         public Card DrawCard(CardsDeck cardsDeck)
         {
@@ -27,9 +23,9 @@ namespace BlackJack
 
             int countSum = GetCurrentScore();
 
-            if(countSum > 21)
+            if (countSum > 21)
             {
-                _scoreOverflowObserver.Update($"Player '{Name}' had a scoreoverflow on {DateTime.Now}");
+                _scoreOverflowObserver?.Update($"Player '{Name}' had a scoreoverflow on {DateTime.Now}");
             }
 
             Logger.ShowDrawnCard(card, countSum);
@@ -40,7 +36,7 @@ namespace BlackJack
 
         public int GetCurrentScore()
         {
-            return PointsCounter.CountSum(this.DrawnCards);
+            return PointsCounter.CountSum(this.DrawnCards!);
         }
     }
 }
