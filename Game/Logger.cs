@@ -1,3 +1,5 @@
+
+
 namespace BlackJack
 {
   static class Logger
@@ -9,26 +11,31 @@ namespace BlackJack
       Console.WriteLine("===========================");
       Console.WriteLine("");
     }
+
     public static void StartPlayersTurn(string playerName)
     {
       Console.WriteLine($"Now it's {playerName}'s turn!");
       Console.WriteLine($"Get ready");
       Console.WriteLine("");
     }
+        
     public static void ShowDrawnCard(Card card, int totalPointsCount)
     {
       Console.WriteLine($"You have drawn {card.Name} of {card.Suit.Name}");
       Console.WriteLine($"Your total points count is: {totalPointsCount}");
       Console.WriteLine("");
     }
+
     public static void ShownCardShortInfo(Card card)
     {
       Console.WriteLine($"{card.Name} {card.Suit.Icon}");
     }
+
     public static void ShowPlayerSwitchMessage(string playerName)
     {
       Console.WriteLine($"Switching to player {playerName}...");
     }
+
     public static void EndGame(List<Player> winners)
     {
       Console.WriteLine("Checking winners...");
@@ -46,6 +53,7 @@ namespace BlackJack
          Console.WriteLine($"The winners are {names}");
       }
     }
+
     public static void Log(string message)
     {
       Console.WriteLine(message);

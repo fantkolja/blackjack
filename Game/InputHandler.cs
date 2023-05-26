@@ -4,7 +4,9 @@ namespace BlackJack
   {
     private static char _requestConfirm()
     {
+
       char? userInput = null;
+      
       do
       {
         if (userInput != null)
@@ -19,6 +21,7 @@ namespace BlackJack
       Logger.Log("");
       return (char) userInput;
     }
+
     public static bool Confirm(string message)
     {
       Logger.Log(message);
@@ -37,6 +40,19 @@ namespace BlackJack
       } while(answer == null);
       return answer;
     }
+
+    public static int? IntAnswer(string messsage)
+    {
+      Logger.Log(messsage);
+      int? answer = null;
+      do
+      {
+        answer = Convert.ToInt32(Console.ReadLine());
+      } while(answer == null);
+      
+      return answer;
+    }
+
 
     public static string RequestAnswer(string messsage, string defaultAnswer)
     {
