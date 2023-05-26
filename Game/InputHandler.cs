@@ -1,6 +1,8 @@
 namespace BlackJack
 {
-  static class InputHandler
+    using blackjack.Strategy.PlayerChoosing;
+
+    static class InputHandler
   {
     private static char _requestConfirm()
     {
@@ -38,7 +40,22 @@ namespace BlackJack
       return answer;
     }
 
-    public static string RequestAnswer(string messsage, string defaultAnswer)
+    public static int ChooseBootPlayer()
+    {
+        for (int i = 0; i < ChoosePlayerHelper.Bots.Count; i++)
+        {
+            Logger.Log($"{i + 1}. {ChoosePlayerHelper.Bots[i].Name}");
+        }
+
+        int playerNumber = 0;
+        do
+        {
+            int.TryParse(Console.ReadLine(), out playerNumber);
+        } while (playerNumber < 1 || playerNumber > ChoosePlayerHelper.Bots.Count);
+        return playerNumber - 1;
+    }
+
+public static string RequestAnswer(string messsage, string defaultAnswer)
     {
       string answer = InputHandler.RequestAnswer(messsage);
       if (String.IsNullOrEmpty(answer))

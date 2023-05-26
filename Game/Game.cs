@@ -1,6 +1,9 @@
 namespace BlackJack
 {
-  class Game
+    using blackjack.Game;
+    using blackjack.Strategy.PlayerChoosing;
+
+    class Game
   {
     public static readonly int PLAYER_COUNT = 2;
     public static readonly int CARDS_WITHOUT_CONFIRMATION_COUNT = 2;
@@ -8,12 +11,10 @@ namespace BlackJack
     private List<Player> _createPlayers()
     {
       var players = new List<Player>();
-      for (int i = 1; i <= PLAYER_COUNT; i++)
-      {
-        string defaultName = $"Player {i}";
-        string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-        players.Add(new Player(name));
-      }
+      var isWithBot = InputHandler.Confirm("Play with bot?");
+
+      players = isWithBot ? new CreateHumanBotPlayers().Create() : new CreateHumanPlayers().Create();
+
       return players;
     }
     private void _greet()
