@@ -1,0 +1,14 @@
+Time:5/27/2023 3:53:52 PM;Player:Dmytro;Scores:3, 2, 11;Avg:5
+
+Time:5/27/2023 3:53:52 PM;Player:AI;Scores:10, 6;Avg:8
+
+Time:5/27/2023 3:54:05 PM;Player:Dmytro;Scores:10, 3, 6;Avg:6
+
+Time:5/27/2023 3:54:05 PM;Player:AI;Scores:7, 3, 10;Avg:6
+
+Time:5/27/2023 3:54:35 PM;Player:Dmytro;Scores:3, 3, 4, 4, 8;Avg:4
+
+Time:5/27/2023 3:54:35 PM;Player:AI;Scores:10, 10;Avg:10
+
+Time:5/27/2023 3:54:50 PM;Player:Dmytro;Scores:4, 10, 10;Avg:8
+
