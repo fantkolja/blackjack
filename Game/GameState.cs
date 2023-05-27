@@ -5,8 +5,8 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task3
-{
+namespace BlackJack
+
     class GameState
     {
         private List<Player> _players = new List<Player>();

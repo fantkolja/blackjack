@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Task3.Strategy
+namespace BlackJack
 {
     class RandomStrategy : IStrategy
     {

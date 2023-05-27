@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace Task3
+namespace BlackJack
 {
     class Game
     {

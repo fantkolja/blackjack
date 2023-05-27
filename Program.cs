@@ -1,4 +1,4 @@
-﻿    using Task3;
+﻿    using BlackJack;
 
 var game = new Game("log.txt", "bustLog.txt");
 game.createComputerPlayer(new CautiousStrategy());
