@@ -1,6 +1,6 @@
 namespace BlackJack
 {
-  class Card
+  public class Card
   {
     public CardSuitInfo Suit { get; }
     public CardName Name { get; }
