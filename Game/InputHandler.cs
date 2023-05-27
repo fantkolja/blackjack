@@ -13,7 +13,7 @@ namespace BlackJack
         }
         userInput = Console.ReadKey().KeyChar;
       }
-      while (userInput != 'y' && userInput != 'N');
+      while (userInput != 'y' && userInput != 'n');
 
       Logger.Log("");
       Logger.Log("");
@@ -22,7 +22,7 @@ namespace BlackJack
     public static bool Confirm(string message)
     {
       Logger.Log(message);
-      Logger.Log("Please type y/N: ");
+      Logger.Log("Please type y/n: ");
       char userInput = InputHandler._requestConfirm();
       return userInput == 'y';
     }
