@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BlackJack
 {
   record CardSuitInfo
