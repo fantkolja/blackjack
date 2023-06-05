@@ -1,3 +1,5 @@
+using blackjack;
+
 namespace BlackJack
 {
   class Game
@@ -12,7 +14,7 @@ namespace BlackJack
       {
         string defaultName = $"Player {i}";
         string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-        players.Add(new Player(name));
+        players.Add(new Player(name, 1000));
       }
       return players;
     }
@@ -45,18 +47,27 @@ namespace BlackJack
       List<Player> winners = this._state.GetWinners();
       Logger.EndGame(winners);
     }
-
-    public void HandlePlayer(Player player)
+    private void HandlePlayer(Player player)
     {
-      Logger.StartPlayersTurn(player.Name);
-      for (int i = 0; i < CARDS_WITHOUT_CONFIRMATION_COUNT; i++)
-      {
-        player.DrawCard(this._state.Deck);
-      }
-      while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw())
-      {
-        player.DrawCard(this._state.Deck);
-      }
+        Logger.StartPlayersTurn(player.Name);
+
+        int betAmount = BetHandler.RequestBet(player);
+        player.PlaceBet(betAmount);
+
+        for (int i = 0; i < CARDS_WITHOUT_CONFIRMATION_COUNT; i++)
+        {
+            player.DrawCard(this._state.Deck);
+        }
+
+        while (PointsCounter.CountSum(player.DrawnCards) < PointsCounter.MAX_POINTS_COUNT && player.ConfirmNextDraw())
+        {
+            player.DrawCard(this._state.Deck);
+        }
+
+        if (PointsCounter.CountWinningPoints(player.DrawnCards) != null)
+        {
+            player.WinBet(betAmount * 2); // Double the bet amount
+        }
     }
   }
 }

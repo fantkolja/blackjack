@@ -49,5 +49,15 @@ namespace BlackJack
       Logger.Log("");
       return answer;
     }
-  }
+
+    public static int RequestNumber(string prompt, int min, int max)
+    {
+        int number;
+        do
+        {
+            Console.WriteLine(prompt);
+        } while (!int.TryParse(Console.ReadLine(), out number) || number < min || number > max);
+        return number;
+    }
+    }
 }
