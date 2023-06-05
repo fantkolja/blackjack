@@ -38,7 +38,7 @@ namespace BlackJack
       }
       else if (winners.Count == 1)
       {
-        Console.WriteLine($"The absolute winner is {winners[0].Name}");
+        Console.WriteLine($"The absolute winner is {winners[0].Name} and has {winners[0].Money}");
       }
       else
       {
