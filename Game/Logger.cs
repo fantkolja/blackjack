@@ -27,7 +27,9 @@ namespace BlackJack
     }
     public static void ShowPlayerSwitchMessage(string playerName)
     {
+      Console.ForegroundColor = ConsoleColor.Yellow;
       Console.WriteLine($"Switching to player {playerName}...");
+      Console.ResetColor();
     }
     public static void EndGame(List<Player> winners)
     {

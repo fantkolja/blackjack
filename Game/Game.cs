@@ -7,15 +7,40 @@ namespace BlackJack
     private GameState _state = new GameState();
     private List<Player> _createPlayers()
     {
-      var players = new List<Player>();
-      for (int i = 1; i <= PLAYER_COUNT; i++)
-      {
-        string defaultName = $"Player {i}";
-        string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
-        players.Add(new Player(name));
-      }
-      return players;
+        var players = new List<Player>();
+
+        if(InputHandler.Confirm("Do you want to play with bot?"))
+        {
+          // Create human player
+          string defaultName = "Player 1";
+          string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+          players.Add(new Player(name));
+
+          // Create computer player
+          IComputerPlayerStrategy strategy = ChooseRandomStrategy();
+          players.Add(new ComputerPlayer("Computer Character", strategy));
+          Logger.Log($"Computer player strategy: {strategy.Name}");
+        }
+        else{
+          // Create human players
+          for (int i = 1; i <= PLAYER_COUNT; i++)
+          {
+            string defaultName = $"Player {i}";
+            string name = InputHandler.RequestAnswer($"Write a name for [{defaultName}]", defaultName);
+            players.Add(new Player(name));
+          }
+        }
+        return players;
     }
+
+    private IComputerPlayerStrategy ChooseRandomStrategy()
+    {
+      var strategies = new List<IComputerPlayerStrategy> { new RiskyStrategy(), new CautiousStrategy(), new RandomStrategy() };
+      var random = new Random();
+      int index = random.Next(strategies.Count);
+      return strategies[index];
+    }
+
     private void _greet()
     {
       Logger.Greet();
