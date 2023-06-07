@@ -17,6 +17,8 @@ namespace BlackJack
       Card card = cardsDeck.Draw();
       this.DrawnCards.Add(card);
       Logger.ShowDrawnCard(card, PointsCounter.CountSum(this.DrawnCards));
+      AnalytService.AddRoundPoints(PointsCounter.CountSumOne(card));
+      AnalytService.AddRoundPointsBusts(PointsCounter.CountSum(this.DrawnCards));
       return card;
     }
   }
