@@ -46,6 +46,15 @@ namespace BlackJack
       return PointsCounter._addAcesSum(noAcesSum, aces);
     }
 
+    public static int CountSumOne(Card card)
+    {
+      List<Card> cards = new List<Card>();
+      cards.Add(card);
+      int noAcesSum = PointsCounter._countNoAcesSum(cards);
+      List<Card> aces = cards.Where(card => card.Name == CardName.Ace).ToList();
+      return PointsCounter._addAcesSum(noAcesSum, aces);
+    }
+
     // returns points sum, but only if they are less than MAX_POINTS_COUNT
     public static int? CountWinningPoints(List<Card> cards)
     {
